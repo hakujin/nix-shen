@@ -1,7 +1,7 @@
 {
   "url": "https://github.com/Shen-Language/shen-cl",
-  "rev": "061dcc3011882c53579134bfdd055eb14a635d9b",
-  "date": "2018-01-19T17:14:00-05:00",
-  "sha256": "0wd4knlziidr70sh9d1f8z3rax7lfl47a2bjghrzw9hhvhgq5w59",
+  "rev": "7064f1e7536c8b86c8c28cba70c84a8c4666bbf2",
+  "date": "2018-02-27T17:31:29-05:00",
+  "sha256": "0s1hcnivg70k1f9h4822yavpj95clx138r15a7ifqsjac1rcxwkd",
   "fetchSubmodules": true
 }
