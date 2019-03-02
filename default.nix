@@ -1,19 +1,26 @@
-{ pkgs ? import <nixpkgs> {} }:
-let
-  shen-cl = builtins.fromJSON (builtins.readFile ./shen-cl.json);
-in {
-  shen = with pkgs; stdenv.mkDerivation {
-    name = "shen-21.1";
-    builder = ./builder.sh;
-    src = fetchFromGitHub {
-      owner = "Shen-Language";
-      repo  = "shen-cl";
-      inherit (shen-cl) rev sha256;
-    };
-    kernel = fetchurl {
-      url = "https://github.com/Shen-Language/shen-sources/releases/download/shen-21.1/ShenOSKernel-21.1.tar.gz";
-      sha256 = "0sfgsmaxag6gxj7ljw98ayxi7w27ml11bw8rgvpvjr4y52hcl7dp";
-    };
+{ pkgs ? import <nixpkgs> {} }: {
+  shen = with pkgs; stdenv.mkDerivation rec {
+    version = "21.1";
+    name = "shen-${version}";
     buildInputs = [ sbcl ];
+    src = builtins.fetchGit {
+      url = "https://github.com/Shen-Language/shen-cl.git";
+      ref = "master";
+      rev = "ee94f4c87db6c5de26e380cc34487002c259962b";
+    };
+    kernel = builtins.fetchTarball {
+      url = "https://github.com/Shen-Language/shen-sources/releases/download/shen-${version}/ShenOSKernel-${version}.tar.gz";
+      sha256 = "0smhc07i4b38nbz5amizxkpk5zdkkpixlaapxj8yfwdgywrv6594";
+    };
+    configurePhase = ''
+      ln -s $kernel kernel
+    '';
+    buildFlags = [ "build-sbcl" ];
+    doCheck = true;
+    checkTarget = "test-sbcl";
+    installPhase = ''
+      mkdir -p $out/bin
+      cp bin/sbcl/shen $out/bin
+    '';
   };
 }
