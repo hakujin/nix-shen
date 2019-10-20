@@ -1,17 +1,20 @@
 { pkgs ? import <nixpkgs> {} }: {
   shen = with pkgs; stdenv.mkDerivation rec {
-    version = "21.1";
+    version = "3.0.2";
     name = "shen-${version}";
     buildInputs = [ sbcl ];
-    src = builtins.fetchGit {
-      url = "https://github.com/Shen-Language/shen-cl.git";
-      ref = "master";
-      rev = "ee94f4c87db6c5de26e380cc34487002c259962b";
+    src = builtins.fetchTarball {
+      url = "https://github.com/Shen-Language/shen-cl/releases/download/v${version}/shen-cl-v${version}-sources.tar.gz";
+      sha256 = "0zp1w66mnqcqhbxh6q8j7s5x6fbgyhs3vhddvy9v8d0bqc94yjxc";
     };
-    kernel = builtins.fetchTarball {
-      url = "https://github.com/Shen-Language/shen-sources/releases/download/shen-${version}/ShenOSKernel-${version}.tar.gz";
-      sha256 = "0smhc07i4b38nbz5amizxkpk5zdkkpixlaapxj8yfwdgywrv6594";
-    };
+    kernel =
+      let
+        kernel-version = "22.2";
+      in
+        builtins.fetchTarball {
+          url = "https://github.com/Shen-Language/shen-sources/releases/download/shen-${kernel-version}/ShenOSKernel-${kernel-version}.tar.gz";
+          sha256 = "1nvllxvzrws3gwjc1zkmrnd6vy4r8p4s6bx2jr03pifmkp55rk4c";
+        };
     configurePhase = ''
       ln -s $kernel kernel
     '';
