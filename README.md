@@ -4,4 +4,4 @@
 
 This is a handy [nix](https://nixos.org/nix/) derivation for the [Steel Bank Common Lisp](http://www.sbcl.org/) port of [shen-cl](https://github.com/Shen-Language/shen-cl).
 
-`nix-env --file default.nix --install shen`
+`nix-env --file install.nix --install`
